@@ -12,8 +12,11 @@ fn main() {
     print!("\n");
 
     let skrivnost = rand::thread_rng().gen_range(spodnja, zgornja);
-    println!("{}------{}------{}", spodnja, skrivnost, zgornja);
+    println!("{}----------{}----------{}", spodnja, skrivnost, zgornja);
     let mut osnova: i32 = rand::thread_rng().gen_range(spodnja, zgornja);
+
+    let velikost: usize = zgornja as usize;
+    let mut seznam = vec![0; velikost];
 
     let mut tries = 0;
 
@@ -27,10 +30,30 @@ fn main() {
                 // println!("more");
                 // println!("spodnja set to {}", spodnja);
                 spodnja = osnova;
+                seznam[tries-1]=osnova;
                 osnova = rand::thread_rng().gen_range(spodnja, zgornja);
             },
             Ordering::Equal => {
-                println!("uganjeno stevilo je {} po {} poskusih.",osnova, tries);
+                print!("uganjeno stevilo je ");
+                print!("{}", osnova);
+                print!(" po {} poskusih.", tries);
+                print!("\ngenerirani poskusi po vrsti: \n");
+
+                let mut x = 1;
+                for stev in seznam {
+                    if stev != 0 {
+                        if x>=10 {
+                            print!("\n");
+                            x=1;
+                        }
+                        print!(" {},", stev);
+                    } else {
+                        break;
+                    }
+                    x+=1;
+                }
+
+                print!(" {}\n", osnova);
                 break;
             },
             Ordering::Greater => {
@@ -38,6 +61,7 @@ fn main() {
                 // println!("less");
                 // println!("zgornja set to {}", zgornja);
                 zgornja = osnova;
+                seznam[tries-1]=osnova;
                 osnova = rand::thread_rng().gen_range(spodnja, zgornja);
             },
         }
