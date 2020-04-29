@@ -9,10 +9,13 @@ fn main() {
     println!("vnesi zgornjo mejo: ");
     let mut zgornja = zgornja(spodnja);
 
+    let line_spodnja = spodnja;
+    let line_zgornja = zgornja;
+
     print!("\n");
 
     let skrivnost = rand::thread_rng().gen_range(spodnja, zgornja);
-    println!("{}----------{}----------{}", spodnja, skrivnost, zgornja);
+
     let mut osnova: i32 = rand::thread_rng().gen_range(spodnja, zgornja);
 
     let velikost: usize = zgornja as usize;
@@ -37,8 +40,10 @@ fn main() {
                 print!("uganjeno stevilo je ");
                 print!("{}", osnova);
                 print!(" po {} poskusih.", tries);
-                print!("\ngenerirani poskusi po vrsti: \n");
 
+                line(line_spodnja, osnova, line_zgornja, &mut seznam);
+
+                print!("\ngenerirani poskusi po vrsti: \n");
                 let mut x = 1;
                 for stev in seznam {
                     if stev != 0 {
@@ -66,6 +71,40 @@ fn main() {
             },
         }
 
+    }
+}
+
+fn line(spodnja: i32, stevilo: i32, zgornja: i32, seznam: &mut [i32]) {
+
+    print!("\nprikaz poskusov: {} ", spodnja);
+
+    if spodnja+zgornja > 100 {
+        print!("{} ---------- {} ---------- {}       [crta za prikaz je skrcena]", spodnja, stevilo, zgornja);
+    } else {
+        let mut x = 2;
+
+        while x < stevilo {
+            if seznam.contains(&x) {
+                print!(" {} ", x);
+            } else {
+                print!("-");
+            }
+            x+=1;
+        }
+
+        print!(" {} ", stevilo);
+        x+=1;
+
+        while x < zgornja {
+            if seznam.contains(&x) {
+                print!(" {} ", x);
+            } else {
+                print!("-");
+            }
+            x+=1;
+        }
+
+        print!(" {}\n", zgornja);
     }
 }
 
