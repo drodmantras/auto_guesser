@@ -7,11 +7,12 @@ fn main() {
     println!("vnesi spodnjo mejo: ");
     let mut spodnja = vnos();
     println!("vnesi zgornjo mejo: ");
-    let mut zgornja = vnos();
+    let mut zgornja = zgornja(spodnja);
+
     print!("\n");
 
     let skrivnost = rand::thread_rng().gen_range(spodnja, zgornja);
-    println!("generirana={}", skrivnost);
+    println!("{}------{}------{}", spodnja, skrivnost, zgornja);
     let mut osnova: i32 = rand::thread_rng().gen_range(spodnja, zgornja);
 
     let mut tries = 0;
@@ -29,7 +30,7 @@ fn main() {
                 osnova = rand::thread_rng().gen_range(spodnja, zgornja);
             },
             Ordering::Equal => {
-                println!("uganjeno stevilo je {} po {} poskusih.", osnova, tries);
+                println!("uganjeno stevilo je {} po {} poskusih.",osnova, tries);
                 break;
             },
             Ordering::Greater => {
@@ -44,6 +45,20 @@ fn main() {
     }
 }
 
+fn zgornja(spodnja: i32) -> i32 {
+    let mut newzgornja = vnos();
+
+    loop {
+        if newzgornja > spodnja {
+            break;
+        } else {
+            println!("zgornja meja naj je večja od spodnje!");
+            newzgornja = zgornja(spodnja);
+        }
+    }
+    newzgornja
+}
+
 fn vnos() -> i32 {
 
     println!("(stevilo naj je pozitivno)");
@@ -53,7 +68,7 @@ fn vnos() -> i32 {
         .read_line(&mut vn)
         .expect("napaka branja!");
 
-    let vn = vn.trim().parse::<i32>().expect("napačen vnos!");
+    let vn = vn.trim().parse::<i32>().expect("napacen vnos!");
 
     if vn < 1 {
         println!("Napaka! stevilo mora biti pozitivno! ");
