@@ -57,7 +57,7 @@ fn vnos() -> i32 {
 
     if vn < 1 {
         println!("Napaka! stevilo mora biti pozitivno! ");
-        let mut vn = vnos();
+        let vn = vnos();
         vn
     } else {
         vn
