@@ -29,9 +29,7 @@ fn main() {
 
         match osnova.cmp(&skrivnost) {
             Ordering::Less => {
-                // println!("{}, {}", tries, osnova);
-                // println!("more");
-                // println!("spodnja set to {}", spodnja);
+
                 spodnja = osnova;
                 seznam[tries-1]=osnova;
                 osnova = rand::thread_rng().gen_range(spodnja, zgornja);
@@ -43,28 +41,12 @@ fn main() {
 
                 line(line_spodnja, osnova, line_zgornja, &mut seznam);
 
-                print!("\ngenerirani poskusi po vrsti: \n");
-                let mut x = 1;
-                for stev in seznam {
-                    if stev != 0 {
-                        if x>=10 {
-                            print!("\n");
-                            x=1;
-                        }
-                        print!(" {},", stev);
-                    } else {
-                        break;
-                    }
-                    x+=1;
-                }
+                vrsta(osnova, &mut seznam);
 
-                print!(" {}\n", osnova);
                 break;
             },
             Ordering::Greater => {
-                // println!("{}, {}", tries, osnova);
-                // println!("less");
-                // println!("zgornja set to {}", zgornja);
+                
                 zgornja = osnova;
                 seznam[tries-1]=osnova;
                 osnova = rand::thread_rng().gen_range(spodnja, zgornja);
@@ -72,6 +54,29 @@ fn main() {
         }
 
     }
+}
+
+fn vrsta(stevilo: i32, seznam: &mut [i32]) {
+
+    let mut x = 1;
+
+    print!("\ngenerirani poskusi po vrsti: ");
+
+    for stev in seznam {
+        let num = *stev;
+        if num != 0 {
+            if x>=10 {
+                print!("\n");
+                x=1;
+            }
+            print!(" {},", num);
+        } else {
+            break;
+        }
+        x+=1;
+    }
+
+    print!(" {}.\n", stevilo);
 }
 
 fn line(spodnja: i32, stevilo: i32, zgornja: i32, seznam: &mut [i32]) {
